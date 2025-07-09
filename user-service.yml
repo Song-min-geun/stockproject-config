@@ -1,0 +1,5 @@
+# JWT 관련 설정
+jwt:
+  # 실제 운영 환경에서는 환경 변수나 다른 보안 메커니즘을 통해 주입받는 것이 안전합니다.
+  secret: V2VMaXZlSW5BVkNBdGl0eUFkdmFuY2VkQ29tcGFueUFjdGl2ZWx5RGV2ZWxvcGluZ1RTQUZvclRoZUZ1dHVyZQo=
+  expiration-time: 3600000 # 1시간
