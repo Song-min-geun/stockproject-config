@@ -1,34 +1,35 @@
-server:
-  port: 8000
-
 spring:
   application:
     name: gateway-service
   cloud:
     gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
       server:
         webflux:
           routes:
             # User Service 라우팅 규칙
             - id: user-service
-              uri: lb://USER-SERVICE
+              uri: lb://user-service
               predicates:
                 - Path=/api/v1/users/**
 
             # Product Service 라우팅 규칙
             - id: product-service
-              uri: lb://PRODUCT-SERVICE
+              uri: lb://product-service
               predicates:
                 - Path=/api/v1/product/**
 
             # Order Service 라우팅 규칙
             - id: order-service
-              uri: lb://ORDER-SERVICE
+              uri: lb://order-service
               predicates:
                 - Path=/api/v1/orders/**
 
             - id: stock-service
-              uri: lb://STOCK-SERVICE
+              uri: lb://stock-service
               predicates:
                 - Path=/api/v1/stock/**
 
