@@ -7,7 +7,7 @@ spring:
   cloud:
     gateway:
       server:
-        webflux: # routes는 이 webflux 아래에 있어야 합니다.
+        webflux:
           routes:
             # User Service 라우팅 규칙
             - id: user-service
@@ -39,3 +39,8 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka/
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    reactor.netty: DEBUG
