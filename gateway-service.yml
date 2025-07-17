@@ -1,24 +1,34 @@
 server:
-  port: 8000 # 게이트웨이는 보통 8000번대 포트를 사용합니다.
+  port: 8000
 
 spring:
+  application:
+    name: gateway-service
   cloud:
     gateway:
       routes:
-        # User-Service 라우팅 설정
+        # User Service 라우팅 규칙
         - id: user-service
-          uri: http://localhost:8080 # User-Service의 실제 주소
+          uri: lb://USER-SERVICE # localhost:8080 대신 Eureka에 등록된 서비스 이름 사용
           predicates:
-            - Path=/api/v1/users/** # 이 경로로 들어오는 요청은
+            - Path=/api/v1/users/**
 
-        # Product-Service 라우팅 설정
+        # Product Service 라우팅 규칙
         - id: product-service
-          uri: http://localhost:8081 # Product-Service의 실제 주소
+          uri: lb://PRODUCT-SERVICE # localhost:8081 대신 Eureka에 등록된 서비스 이름 사용
           predicates:
-            - Path=/api/v1/product/**
+            - Path=/api/v1/product/** # 이 경로로 들어오는 모든 요청
 
-        # Order-Service 라우팅 설정
+        # Order Service 라우팅 규칙
         - id: order-service
-          uri: http://localhost:8082 # Order-Service의 실제 주소
+          uri: lb://ORDER-SERVICE # localhost:8082 대신 Eureka에 등록된 서비스 이름 사용
           predicates:
             - Path=/api/v1/orders/**
+
+# 게이트웨이도 Eureka에 자신을 등록하도록 설정
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
