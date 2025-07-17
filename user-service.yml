@@ -12,6 +12,9 @@ spring:
     password: 1111
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+    application:
+      name: USER-SERVICE
+
   # JPA 설정 (이 부분을 추가하거나 수정하세요)
   jpa:
     hibernate:
@@ -20,3 +23,10 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
