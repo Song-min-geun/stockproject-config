@@ -6,18 +6,15 @@ spring:
     name: gateway-service
   cloud:
     gateway:
-      # Eureka와 연동하여 서비스를 동적으로 찾기 위한 설정
-      discovery:
-        locator:
-          enabled: true
-          lower-case-service-id: true # 서비스 ID를 소문자로 처리하여 일관성 유지
-
-      # 라우팅 규칙
       server:
         webflux:
+          discovery:
+            locator:
+              enabled: true
+              lower-case-service-id: true
           routes:
             - id: user-service
-              uri: lb://user-service # Eureka에 등록된 서비스 이름 (소문자 권장)
+              uri: lb://user-service
               predicates:
                 - Path=/api/v1/users/**
 
@@ -44,8 +41,8 @@ eureka:
     service-url:
       defaultZone: http://localhost:8761/eureka/
 
-# 게이트웨이의 상세 로그를 보기 위한 설정 (문제 해결 후 삭제 가능)
-logging:
-  level:
-    org.springframework.cloud.gateway: DEBUG
-    reactor.netty: DEBUG
+# 게이트웨이의 상세 로그를 보기 위한 설정
+#logging:
+#  level:
+#    org.springframework.cloud.gateway: DEBUG
+#    reactor.netty: DEBUG
