@@ -1,5 +1,16 @@
-# Kafka 컨슈머 관련 설정
+# stock-service.yml
+
+# --- 공통 설정 ---
 spring:
+  application:
+    name: STOCK-SERVICE
+
+---
+# --- 'local' 프로필 ---
+spring:
+  config:
+    activate:
+      on-profile: "local"
   kafka:
     consumer:
       bootstrap-servers: localhost:9092
@@ -7,16 +18,31 @@ spring:
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-  application:
-    name: STOCK-SERVICE
-  # In-Memory DB (Redis) 설정
   redis:
     host: localhost
     port: 6379
-
 eureka:
   client:
-    register-with-eureka: true
-    fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka/
+
+---
+# --- 'docker' 프로필 ---
+spring:
+  config:
+    activate:
+      on-profile: "docker"
+  kafka:
+    consumer:
+      bootstrap-servers: kafka:9092 # 'kafka'는 docker-compose에 정의할 Kafka 서비스 이름
+      group-id: stock-service-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+  redis:
+    host: redis # 'redis'는 docker-compose에 정의할 Redis 서비스 이름
+    port: 6379
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/

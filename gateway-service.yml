@@ -33,16 +33,18 @@ spring:
               predicates:
                 - Path=/api/v1/stock/**
 
-# 게이트웨이가 자신을 Eureka 서버에 등록하기 위한 설정
+# --- 'local' 프로필: 로컬에서 실행 시 ---
+spring.config.activate.on-profile: "local"
 eureka:
   client:
-    register-with-eureka: true
-    fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka/
 
-# 게이트웨이의 상세 로그를 보기 위한 설정
-#logging:
-#  level:
-#    org.springframework.cloud.gateway: DEBUG
-#    reactor.netty: DEBUG
+---
+# --- 'docker' 프로필: EC2에서 배포 시 ---
+spring.config.activate.on-profile: "docker"
+eureka:
+  client:
+    service-url:
+      # ⭐️ Docker 네트워크의 서비스 이름으로 Eureka를 찾도록 수정
+      defaultZone: http://eureka-server:8761/eureka/

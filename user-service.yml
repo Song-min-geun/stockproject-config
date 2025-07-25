@@ -1,32 +1,51 @@
-# JWT 관련 설정
+# user-service.yml
+
+# --- 공통 설정 ---
+spring:
+  application:
+    name: USER-SERVICE
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
 jwt:
-  # 실제 운영 환경에서는 환경 변수나 다른 보안 메커니즘을 통해 주입받는 것이 안전합니다.
-  secret: V2VMaXZlSW5BVkNBdGl0eUFkdmFuY2VkQ29tcGFueUFjdGl2ZWx5RGV2ZWxvcGluZ1RTQUZvclRoZUZ1dHVyZQo=
   expiration-time: 3600000 # 1시간
 
-
+---
+# --- 'local' 프로필 ---
 spring:
+  config:
+    activate:
+      on-profile: "local"
   datasource:
     url: jdbc:mysql://localhost:3306/user_db
     username: root
     password: 1111
     driver-class-name: com.mysql.cj.jdbc.Driver
-
-    application:
-      name: USER-SERVICE
-
-  # JPA 설정 (이 부분을 추가하거나 수정하세요)
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true # 실행되는 SQL 쿼리를 로그로 보여줍니다.
-    properties:
-      hibernate:
-        format_sql: true
-
 eureka:
   client:
-    register-with-eureka: true
-    fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka/
+jwt:
+  secret: V2VMaXZlSW5BVkNBdGl0eUFkdmFuY2VkQ29tcGFueUFjdGl2ZWx5RGV2ZWxvcGluZ1RTQUZvclRoZUZ1dHVyZQo=
+
+---
+# --- 'docker' 프로필 ---
+spring:
+  config:
+    activate:
+      on-profile: "docker"
+  datasource:
+    url: jdbc:mysql://db:3306/user_db # 'db'는 docker-compose에 정의할 MySQL 서비스 이름
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/
+jwt:
+  secret: ${JWT_SECRET_KEY} # 환경 변수로 주입
