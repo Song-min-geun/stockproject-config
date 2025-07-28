@@ -6,7 +6,7 @@ spring:
     name: STOCK-SERVICE
 
 server:
-  port: 8083
+  port: 8084
 
 ---
 # --- 'local' 프로필 ---

@@ -6,7 +6,7 @@ spring:
     name: PRODUCT-SERVICE
 
 server:
-  port: 8082
+  port: 8083
 
 ---
 # --- 'local' 프로필 ---
