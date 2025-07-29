@@ -1,7 +1,26 @@
+# eureka-server.yml
+
+# --- 공통 설정 ---
 server:
   port: 8761
 
 eureka:
   client:
+    # Eureka 서버는 자기 자신을 클라이언트로 등록하지 않습니다.
     register-with-eureka: false
     fetch-registry: false
+
+---
+# --- 'docker' 프로필: EC2 및 Docker Compose 환경에서 사용 ---
+spring:
+  config:
+    activate:
+      on-profile: "docker"
+eureka:
+  instance:
+    # Docker 네트워크에서 다른 서비스들이 이 이름으로 Eureka를 찾습니다.
+    hostname: eureka-server
+  client:
+    # ⭐️ 자기 자신을 찾을 때도 localhost 대신 서비스 이름을 사용하도록 명시
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/
