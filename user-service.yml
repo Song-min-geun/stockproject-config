@@ -1,32 +1,15 @@
-# user-service.yml
-
-# --- 공통 설정 ---
 spring:
   application:
     name: user-service
-  cloud:
-    config:
-      # ⭐️ 아래 4줄을 local과 docker 프로필 모두에 추가합니다.
-      fail-fast: true
-      retry:
-        max-attempts: 20
-        initial-interval: 1000
-        max-interval: 2000
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
 jwt:
-  expiration-time: 3600000 # 1시간
-
+  expiration-time: 3600000
 server:
   port: 8081
-
 ---
-# --- 'local' 프로필 ---
 spring:
   config:
     activate:
@@ -35,28 +18,24 @@ spring:
     url: jdbc:mysql://localhost:3306/user_db
     username: root
     password: 1111
-    driver-class-name: com.mysql.cj.jdbc.Driver
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
 jwt:
-  secret: V2VMaXZlSW5BVkNBdGl0eUFkdmFuY2VkQ29tcGFueUFjdGl2ZWx5RGV2ZWxvcGluZ1RTQUZvclRoZUZ1dHVyZQo=
-
+  secret: ${JWT_SECRET_KEY}
 ---
-# --- 'docker' 프로필 ---
 spring:
   config:
     activate:
       on-profile: "docker"
   datasource:
-    url: jdbc:mysql://db:3306/user_db # 'db'는 docker-compose에 정의할 MySQL 서비스 이름
+    url: jdbc:mysql://db:3306/user_db
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
-    driver-class-name: com.mysql.cj.jdbc.Driver
 eureka:
   client:
     service-url:
       defaultZone: http://eureka-server:8761/eureka/
 jwt:
-  secret: ${JWT_SECRET_KEY} # 환경 변수로 주입
+  secret: ${JWT_SECRET_KEY}
