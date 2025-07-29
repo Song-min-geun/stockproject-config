@@ -4,6 +4,11 @@
 spring:
   application:
     name: PRODUCT-SERVICE
+  # ⭐️ Kafka 프로듀서 설정을 공통으로 뺍니다.
+  kafka:
+    producer:
+      bootstrap-servers: localhost:9092
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
 server:
   port: 8083
@@ -22,11 +27,6 @@ eureka:
     service-url:
       defaultZone: http://localhost:8761/eureka/
 
-# local 프로필
-kafka:
-  producer:
-    bootstrap-servers: localhost:9092
-
 ---
 # --- 'docker' 프로필 ---
 spring:
@@ -35,13 +35,11 @@ spring:
       on-profile: "docker"
   data:
     mongodb:
-      uri: mongodb://mongodb:27017/product_db # 'mongodb'는 docker-compose에 정의할 MongoDB 서비스 이름
+      uri: mongodb://mongodb:27017/product_db
+  kafka:
+    producer:
+      bootstrap-servers: kafka:9092 # Docker 환경에서는 kafka 호스트 이름 사용
 eureka:
   client:
     service-url:
       defaultZone: http://eureka-server:8761/eureka/
-
-# docker 프로필
-kafka:
-  producer:
-    bootstrap-servers: kafka:9092
