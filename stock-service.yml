@@ -40,7 +40,7 @@ spring:
       on-profile: "docker"
   kafka:
     consumer:
-      bootstrap-servers: kafka:9092 # 'kafka'는 docker-compose에 정의할 Kafka 서비스 이름
+      bootstrap-servers: kafka:29092 # 'kafka'는 docker-compose에 정의할 Kafka 서비스 이름
       group-id: stock-service-group
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
@@ -57,4 +57,4 @@ eureka:
 
 kafka:
   producer:
-    bootstrap-servers: kafka:9092
+    bootstrap-servers: kafka:29092
