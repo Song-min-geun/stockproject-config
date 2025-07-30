@@ -34,7 +34,7 @@ spring:
     password: ${DB_PASSWORD}
   kafka:
     producer:
-      bootstrap-servers: kafka:9092
+      bootstrap-servers: kafka:29092
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 eureka:
   client:
