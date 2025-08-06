@@ -33,7 +33,6 @@ spring:
               predicates:
                 - Path=/api/v1/stock/**
 ---
-# --- 'local' 프로필: 로컬에서 실행 시 ---
 spring.config.activate.on-profile: "local"
 eureka:
   client:
@@ -41,10 +40,8 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
 
 ---
-# --- 'docker' 프로필: EC2에서 배포 시 ---
 spring.config.activate.on-profile: "docker"
 eureka:
   client:
     service-url:
-      # ⭐️ Docker 네트워크의 서비스 이름으로 Eureka를 찾도록 수정
       defaultZone: http://eureka-server:8761/eureka/
